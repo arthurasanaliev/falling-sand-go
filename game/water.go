@@ -20,19 +20,32 @@ func NewWater() *Water {
 }
 
 func (w *Water) Update(g *Game, x, y int) {
-	if y+1 >= GRID_HEIGHT {
-		return
-	}
-	if g.grid[y+1][x] == nil {
+	// TODO: add flow direction
+	// TODO: make cleaner
+	if withinBounds(x, y+1) && emptyCell(g, x, y+1) {
 		g.grid[y+1][x] = g.grid[y][x]
 		g.grid[y][x] = nil
-	} else if x-1 >= 0 && g.grid[y+1][x-1] == nil {
+	} else if withinBounds(x-1, y+1) && emptyCell(g, x-1, y+1) {
 		g.grid[y+1][x-1] = g.grid[y][x]
 		g.grid[y][x] = nil
-	} else if x+1 < GRID_WIDTH && g.grid[y+1][x+1] == nil {
+	} else if withinBounds(x+1, y+1) && emptyCell(g, x+1, y+1) {
 		g.grid[y+1][x+1] = g.grid[y][x]
 		g.grid[y][x] = nil
+	} else if withinBounds(x-1, y) && emptyCell(g, x-1, y) {
+		g.grid[y][x-1] = g.grid[y][x]
+		g.grid[y][x] = nil
+	} else if withinBounds(x+1, y) && emptyCell(g, x+1, y) {
+		g.grid[y][x+1] = g.grid[y][x]
+		g.grid[y][x] = nil
 	}
+}
+
+func withinBounds(x, y int) bool {
+	return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT
+}
+
+func emptyCell(g *Game, x, y int) bool {
+	return g.grid[y][x] == nil
 }
 
 func (w *Water) Draw(screen *ebiten.Image, x, y int) {

@@ -20,6 +20,8 @@ func NewSand() *Sand {
 }
 
 func (s *Sand) Update(g *Game, x, y int) {
+	// TODO: add sand-water swap
+	// TODO: make cleaner
 	if y+1 >= GRID_HEIGHT {
 		return
 	}
