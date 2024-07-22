@@ -29,6 +29,16 @@ func (g *Game) Update() error {
 			}
 		}
 	}
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight) {
+		x, y := ebiten.CursorPosition()
+		gridX := x / CELL_WIDTH
+		gridY := y / CELL_HEIGHT
+		if gridX >= 0 && gridX < GRID_WIDTH && gridY >= 0 && gridY < GRID_HEIGHT {
+			if g.grid[gridY][gridX] == nil {
+				g.grid[gridY][gridX] = NewWater()
+			}
+		}
+	}
 	for y := GRID_HEIGHT - 1; y >= 0; y-- {
 		for x := 0; x < GRID_WIDTH; x++ {
 			if g.grid[y][x] != nil {
@@ -40,6 +50,8 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	// backgroundColor := color.RGBA{25, 25, 112, 255}
+	// screen.Fill(backgroundColor)
 	for y, rows := range g.grid {
 		for x := range rows {
 			if g.grid[y][x] != nil {

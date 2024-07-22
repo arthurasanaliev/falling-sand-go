@@ -7,19 +7,19 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
-type Sand struct {
+type Water struct {
 	BaseParticle
 }
 
-func NewSand() *Sand {
-	return &Sand{
+func NewWater() *Water {
+	return &Water{
 		BaseParticle: BaseParticle{
-			color: color.RGBA{255, 255, 100, 255},
+			color: color.RGBA{0, 150, 255, 255},
 		},
 	}
 }
 
-func (s *Sand) Update(g *Game, x, y int) {
+func (w *Water) Update(g *Game, x, y int) {
 	if y+1 >= GRID_HEIGHT {
 		return
 	}
@@ -35,6 +35,6 @@ func (s *Sand) Update(g *Game, x, y int) {
 	}
 }
 
-func (s *Sand) Draw(screen *ebiten.Image, x, y int) {
-	vector.DrawFilledRect(screen, float32(x*CELL_WIDTH), float32(y*CELL_HEIGHT), CELL_WIDTH, CELL_HEIGHT, s.color, false)
+func (w *Water) Draw(screen *ebiten.Image, x, y int) {
+	vector.DrawFilledRect(screen, float32(x*CELL_WIDTH), float32(y*CELL_HEIGHT), CELL_WIDTH, CELL_HEIGHT, w.color, false)
 }
