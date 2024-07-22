@@ -14,27 +14,28 @@ type Sand struct {
 func NewSand() *Sand {
 	return &Sand{
 		BaseParticle: BaseParticle{
-			color: color.RGBA{255, 255, 100, 255},
+			color:          color.RGBA{255, 255, 100, 255},
+			alreadyUpdated: false,
 		},
 	}
 }
 
 func (s *Sand) Update(g *Game, x, y int) {
-	// TODO: add sand-water swap
-	// TODO: make cleaner
-	if y+1 >= GRID_HEIGHT {
+	// TODO: modify sand-water swap
+	if s.IsAlreadyUpdated() {
 		return
 	}
-	if g.grid[y+1][x] == nil {
-		g.grid[y+1][x] = g.grid[y][x]
-		g.grid[y][x] = nil
-	} else if x-1 >= 0 && g.grid[y+1][x-1] == nil {
-		g.grid[y+1][x-1] = g.grid[y][x]
-		g.grid[y][x] = nil
-	} else if x+1 < GRID_WIDTH && g.grid[y+1][x+1] == nil {
-		g.grid[y+1][x+1] = g.grid[y][x]
-		g.grid[y][x] = nil
+	if !withinBounds(x, y+1) {
+		return
 	}
+	if !sandCell(g, x, y+1) {
+		g.grid[y+1][x], g.grid[y][x] = g.grid[y][x], g.grid[y+1][x]
+	} else if withinBounds(x-1, y+1) && !sandCell(g, x-1, y+1) {
+		g.grid[y+1][x-1], g.grid[y][x] = g.grid[y][x], g.grid[y+1][x-1]
+	} else if withinBounds(x+1, y+1) && !sandCell(g, x+1, y+1) {
+		g.grid[y+1][x+1], g.grid[y][x] = g.grid[y][x], g.grid[y+1][x+1]
+	}
+	s.SetAlreadyUpdated(true)
 }
 
 func (s *Sand) Draw(screen *ebiten.Image, x, y int) {

@@ -46,6 +46,13 @@ func (g *Game) Update() error {
 			}
 		}
 	}
+	for y := GRID_HEIGHT - 1; y >= 0; y-- {
+		for x := 0; x < GRID_WIDTH; x++ {
+			if g.grid[y][x] != nil {
+				g.grid[y][x].SetAlreadyUpdated(false)
+			}
+		}
+	}
 	return nil
 }
 

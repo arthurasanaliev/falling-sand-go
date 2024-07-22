@@ -5,5 +5,14 @@ import (
 )
 
 type BaseParticle struct {
-	color color.Color
+	color          color.Color
+	alreadyUpdated bool
+}
+
+func (bp *BaseParticle) IsAlreadyUpdated() bool {
+	return bp.alreadyUpdated
+}
+
+func (bp *BaseParticle) SetAlreadyUpdated(updated bool) {
+	bp.alreadyUpdated = updated
 }

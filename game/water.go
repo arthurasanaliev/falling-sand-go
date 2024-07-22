@@ -14,14 +14,17 @@ type Water struct {
 func NewWater() *Water {
 	return &Water{
 		BaseParticle: BaseParticle{
-			color: color.RGBA{0, 150, 255, 255},
+			color:          color.RGBA{0, 150, 255, 255},
+			alreadyUpdated: false,
 		},
 	}
 }
 
 func (w *Water) Update(g *Game, x, y int) {
-	// TODO: add flow direction
-	// TODO: make cleaner
+	// TODO: modify direction flow
+	if w.IsAlreadyUpdated() {
+		return
+	}
 	if withinBounds(x, y+1) && emptyCell(g, x, y+1) {
 		g.grid[y+1][x] = g.grid[y][x]
 		g.grid[y][x] = nil
@@ -38,14 +41,7 @@ func (w *Water) Update(g *Game, x, y int) {
 		g.grid[y][x+1] = g.grid[y][x]
 		g.grid[y][x] = nil
 	}
-}
-
-func withinBounds(x, y int) bool {
-	return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT
-}
-
-func emptyCell(g *Game, x, y int) bool {
-	return g.grid[y][x] == nil
+	w.SetAlreadyUpdated(true)
 }
 
 func (w *Water) Draw(screen *ebiten.Image, x, y int) {
