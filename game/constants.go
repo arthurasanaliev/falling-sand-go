@@ -1,0 +1,9 @@
+package game
+
+const (
+	SCREEN_WIDTH  = 1000
+	SCREEN_HEIGHT = 1000
+
+	WINDOW_WIDTH  = 1000
+	WINDOW_HEIGHT = 1000
+)
