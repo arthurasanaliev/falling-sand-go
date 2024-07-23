@@ -57,7 +57,7 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	// backgroundColor := color.RGBA{25, 25, 112, 255}
+	// backgroundColor := color.RGBA{255, 255, 255, 255}
 	// screen.Fill(backgroundColor)
 	for y, rows := range g.grid {
 		for x := range rows {
